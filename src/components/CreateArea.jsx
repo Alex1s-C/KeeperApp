@@ -1,6 +1,12 @@
 import React, { useState } from "react";
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import Fab from "@material-ui/core/Fab";
+import Zoom from "@material-ui/core/Zoom";
 
 function CreateArea(props) {
+
+const [zoomIn,setZoom] = useState(false);
+
   const [note, setNote] = useState({
     title: "",
     content: ""
@@ -15,6 +21,10 @@ function CreateArea(props) {
         [name]: value
       };
     });
+  }
+
+  function handleMouseOver(){
+      setZoom(true);
   }
 
   function submitNote(event) {
@@ -32,6 +42,7 @@ function CreateArea(props) {
         <input
           name="title"
           onChange={handleChange}
+          onMouseOver={handleMouseOver}
           value={note.title}
           placeholder="Title"
         />
@@ -40,9 +51,12 @@ function CreateArea(props) {
           onChange={handleChange}
           value={note.content}
           placeholder="Take a note..."
-          rows="3"
+          rows={!zoomIn ? "1" : "3"}
+          hidden={!zoomIn}
         />
-        <button onClick={submitNote}>Add</button>
+        <Zoom in={zoomIn}>
+        <Fab onClick={submitNote}><AddCircleOutlineIcon/></Fab>
+        </Zoom>
       </form>
     </div>
   );
